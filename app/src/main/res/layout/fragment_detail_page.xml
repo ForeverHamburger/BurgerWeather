@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="650dp"
+    tools:context=".ui.detailpage.view.DetailPageFragment"
+    android:background="#1A1919">
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="match_parent"
+        android:layout_height="450dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/bg_viewpager_detail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_weather_detail"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
+
+        android:src="@drawable/pic_moon_cloud"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_weather_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="30dp"
+        android:fontFamily="@font/chillax_medium"
+        android:text="Rain Showers"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintStart_toEndOf="@+id/iv_weather_detail"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_tempreture_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="25dp"
+        android:text="29°"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/white"
+        android:textSize="90sp"
+        app:layout_constraintStart_toEndOf="@+id/iv_weather_detail"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="@+id/imageView5"
+        app:layout_constraintTop_toBottomOf="@+id/iv_weather_detail">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_air_quality" />
+
+        <TextView
+            android:id="@+id/tv_quality"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/chillax_medium"
+            android:text="147"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/chillax_medium"
+            android:textColor="#716F6F"
+            android:text="Air quality"
+            android:textSize="10sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout5"
+        app:layout_constraintTop_toBottomOf="@+id/iv_weather_detail">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_pressure" />
+
+        <TextView
+            android:id="@+id/tv_pressure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/chillax_medium"
+            android:text="147"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/chillax_medium"
+            android:text="Pressure"
+            android:textColor="#716F6F"
+            android:textSize="10sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView5"
+        app:layout_constraintTop_toBottomOf="@+id/iv_weather_detail">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_uv_index" />
+
+        <TextView
+            android:id="@+id/tv_uv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/chillax_medium"
+            android:text="147"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Uv Index"
+            android:fontFamily="@font/chillax_medium"
+            android:textColor="#716F6F"
+            android:textSize="10sp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="10dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="@+id/imageView5"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_rain" />
+
+        <TextView
+            android:id="@+id/tv_precipitation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/chillax_medium"
+            android:text="147"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/chillax_medium"
+            android:text="Precipitation"
+            android:textColor="#716F6F"
+            android:textSize="10sp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toStartOf="@+id/linearLayout3"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout4"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_wind" />
+
+        <TextView
+            android:id="@+id/tv_wind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/chillax_medium"
+            android:text="147"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/chillax_medium"
+            android:text="Wind"
+            android:textColor="#716F6F"
+            android:textSize="10sp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="@+id/imageView5"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_visibility" />
+
+        <TextView
+            android:id="@+id/tv_visibility"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/chillax_medium"
+            android:text="147"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/chillax_medium"
+            android:text="Visibility"
+            android:textColor="#716F6F"
+            android:textSize="10sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_under_ground"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="470dp"
+        android:src="@drawable/bg_viewpager_detail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.example.mvpburgerweahter.diyview.SunriseView
+        android:id="@+id/sun_rise"
+        android:layout_width="220dp"
+        android:layout_height="150dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_under_ground"
+        app:layout_constraintEnd_toEndOf="@+id/iv_under_ground"
+        app:layout_constraintStart_toStartOf="@+id/iv_under_ground" />
+
+    <TextView
+        android:id="@+id/tv_sunrise"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="70dp"
+        android:fontFamily="@font/chillax_light"
+        android:text="07:09"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_under_ground"
+        app:layout_constraintEnd_toStartOf="@+id/sun_rise" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/chillax_medium"
+        android:text="sunrise"
+        android:textColor="#716F6F"
+        android:textSize="15sp"
+        android:layout_marginBottom="40dp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_under_ground"
+        app:layout_constraintEnd_toStartOf="@+id/sun_rise" />
+
+    <TextView
+        android:id="@+id/tv_sunset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="70dp"
+        android:fontFamily="@font/chillax_light"
+        android:text="18:40"
+        android:layout_marginLeft="4dp"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_under_ground"
+        app:layout_constraintStart_toEndOf="@+id/sun_rise" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:fontFamily="@font/chillax_medium"
+        android:text="sunset"
+        android:textColor="#716F6F"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_under_ground"
+        app:layout_constraintStart_toEndOf="@+id/sun_rise" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

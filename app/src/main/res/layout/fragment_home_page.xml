@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.homepage.view.HomePageFragment"
+    android:background="#1A1919">
+
+
+    <TextView
+        android:id="@+id/tv_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Chang'an"
+        android:fontFamily="@font/chillax_medium"
+        android:textColor="@color/white"
+        android:textSize="33sp"
+        android:layout_marginLeft="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="55dp"
+        android:text="9月5日，周四"
+        android:fontFamily="@font/chillax_medium"
+        android:textColor="#535353"
+        android:textSize="15sp"
+        android:layout_marginLeft="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="30dp"
+        android:src="@drawable/bg_air_index"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="75dp"
+        android:src="@drawable/ic_air_quality"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_airquality"
+        android:layout_width="40dp"
+        android:layout_height="19dp"
+        android:layout_marginTop="30dp"
+        android:gravity="right"
+        android:text="123"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="@+id/imageView2"
+        app:layout_constraintStart_toStartOf="@+id/imageView2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="110dp"
+        android:src="@drawable/bg_now_tempreture"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_weather"
+        android:layout_width="190dp"
+        android:layout_height="190dp"
+        android:layout_marginTop="320dp"
+        android:src="@drawable/pic_moon_cloud"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_weather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="130dp"
+        android:text="Rain Showers"
+        android:textColor="@color/white"
+        android:fontFamily="@font/chillax_light"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_tempreture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="135dp"
+        android:text="29°"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/white"
+        android:textSize="150sp"
+        android:layout_marginLeft="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/chillax_light"
+        android:text="Today Details"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toTopOf="@+id/rv_today_weather"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btn_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/chillax_light"
+        android:text="Next 7 days >"
+        android:background="#00000000"
+        android:textColor="#3E63DE"
+        android:textSize="15sp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/rv_today_weather"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_today_weather"
+        android:layout_width="wrap_content"
+        android:layout_height="160dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="40dp"
+        android:layout_marginLeft="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
