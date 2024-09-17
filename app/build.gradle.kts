@@ -25,6 +25,7 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -33,8 +34,9 @@ android {
     buildFeatures {
         viewBinding = true;
     }
-
 }
+
+
 
 dependencies {
 
@@ -46,8 +48,11 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation ("com.google.code.gson:gson:2.11.0")
-    implementation("com.amap.api:location:latest.integration")
-    implementation("com.squareup.okhttp3:okhttp:4.12.0")
-    implementation("in.srain.cube:ultra-ptr:1.0.11")
+    implementation ("com.amap.api:location:6.4.7")
+    implementation ("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation ("in.srain.cube:ultra-ptr:1.0.11")
     implementation ("me.relex:circleindicator:2.1.6")
+
+    implementation ("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation ("com.github.bingoogolapple:BGARefreshLayout-Android:2.0.1")
 }

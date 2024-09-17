@@ -84,4 +84,37 @@ public class JsonUtils {
         }
         return infos;
     }
+
+    public static List<LocationInfo> parseHotCityJson(String jsonStr) {
+        List<LocationInfo> infos = new ArrayList<>();
+        try {
+            JSONObject locationJson = new JSONObject(jsonStr);
+            JSONArray topCityList = locationJson.optJSONArray("topCityList");
+
+            for (int i = 0; i < 20; i++) {
+                Gson gson = new Gson();
+                LocationInfo locationInfo = gson.fromJson(topCityList.get(i).toString(), LocationInfo.class);
+                infos.add(locationInfo);
+            }
+        } catch (JSONException e) {
+            Log.d(TAG, "parseJsonData: 解析Json数据失败");
+        }
+        return infos;
+    }
+
+    public static List<LocationInfo> parseSearchCityJson(String jsonStr) {
+        List<LocationInfo> infos = new ArrayList<>();
+        try {
+            JSONObject locationJson = new JSONObject(jsonStr);
+            JSONArray topCityList = locationJson.optJSONArray("location");
+            for (int i = 0; i < 10; i++) {
+                Gson gson = new Gson();
+                LocationInfo locationInfo = gson.fromJson(topCityList.get(i).toString(), LocationInfo.class);
+                infos.add(locationInfo);
+            }
+        } catch (JSONException e) {
+            Log.d(TAG, "parseJsonData: 解析Json数据失败");
+        }
+        return infos;
+    }
 }

@@ -18,11 +18,6 @@ import android.view.animation.LinearInterpolator;
 
 import com.example.mvpburgerweahter.R;
 
-
-/**
- * Created by aotuman on 2017/2/23.
- */
-
 public class SunriseView extends View {
     private Paint mPathPaint;
     private Paint mAnmationPaint;

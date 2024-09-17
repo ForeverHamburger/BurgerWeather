@@ -11,14 +11,18 @@ import java.util.List;
 public interface ISearchPageContract {
     interface ISearchPagePresenter {
         void getCitySearched();
+        void getElasticSearch(String searchString);
     }
 
     interface ISearchPageModel {
-        List<String> getSavedCityCode();
+        List<LocationInfo> getSavedCityList();
+        List<LocationInfo> getHotCityList();
+        List<LocationInfo> getElasticSearchCityList(String searchString);
     }
 
     interface ISearchPageView {
-        void getCitySuccess();
+        void getCitySuccess(List<LocationInfo> hotCityList,List<LocationInfo> cityList);
+        void getElasticSearchSuccess(List<LocationInfo> searchCityList);
         void getCityFailed();
     }
 }

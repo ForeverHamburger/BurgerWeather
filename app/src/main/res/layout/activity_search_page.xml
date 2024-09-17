@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/search_page_motion_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1A1919"
     app:layoutDescription="@xml/activity_search_page_scene"
-    tools:context=".ui.searchpage.SearchPageActivity">
+    tools:context=".ui.searchpage.view.SearchPageActivity">
 
     <ImageButton
         android:id="@+id/ibtn_back_detail"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginBottom="10dp"
         android:background="#1A1919"
         android:src="@drawable/baseline_arrow_back_24"
         app:layout_constraintBottom_toTopOf="@+id/tv_location"
@@ -24,14 +22,20 @@
         android:id="@+id/tv_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="50dp"
-        android:fontFamily="@font/chillax_light"
+        android:fontFamily="@font/chillax_medium"
         android:text="City Manager"
         android:textColor="@color/white"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/ibtn_change_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/pic_change_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <EditText
         android:id="@+id/editText"
@@ -67,8 +71,20 @@
         app:layout_constraintEnd_toEndOf="@+id/editText"
         app:layout_constraintTop_toTopOf="@+id/ibtn_search" />
 
+    <Button
+        android:id="@+id/btn_cancel"
+        android:layout_width="60dp"
+        android:layout_height="45dp"
+        android:background="@color/touming"
+        android:text="Cancel"
+        android:textAllCaps="false"
+        android:textColor="#3E63DE"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/rv_city_manager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
@@ -78,4 +94,79 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/tv_nowlocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/chillax_medium"
+        android:text="Current Location"
+        android:textColor="#716F6F"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_hotcity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/chillax_medium"
+        android:text="Hot City"
+        android:textColor="#716F6F"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/ibtn_currentlocation"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:background="@drawable/btn_click_search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_nowlocation"
+        android:layout_width="50dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/pic_location"
+        app:layout_constraintEnd_toEndOf="@+id/editText"
+        app:layout_constraintTop_toTopOf="@+id/ibtn_search" />
+
+    <TextView
+        android:id="@+id/tv_nowlocation_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/chillax_medium"
+        android:text="Chang'an"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/ibtn_currentlocation"
+        app:layout_constraintTop_toTopOf="@+id/ibtn_currentlocation" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_command_city"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_searched_city"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="90dp"
+        android:visibility="gone"
+        android:background="#1A1919"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

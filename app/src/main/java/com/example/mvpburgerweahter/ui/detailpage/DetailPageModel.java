@@ -3,9 +3,8 @@ package com.example.mvpburgerweahter.ui.detailpage;
 import android.util.Log;
 
 import com.example.mvpburgerweahter.databean.DailyWeatherInfo;
-import com.example.mvpburgerweahter.databean.HourlyWeatherInfo;
 import com.example.mvpburgerweahter.utils.JsonUtils;
-import com.example.mvpburgerweahter.utils.WeatherUtils;
+import com.example.mvpburgerweahter.utils.hefengutils.WeatherUtils;
 
 import java.util.List;
 

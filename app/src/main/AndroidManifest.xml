@@ -28,7 +28,7 @@
             android:name=".ui.detailpage.view.DetailPageActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.searchpage.SearchPageActivity"
+            android:name=".ui.searchpage.view.SearchPageActivity"
             android:exported="false" />
         <activity
             android:name=".ui.homepage.HomePageActivity"

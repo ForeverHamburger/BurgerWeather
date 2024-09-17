@@ -73,7 +73,6 @@ public class DetailPageActivity extends AppCompatActivity implements IDetailPage
     public void getWeatherSuccess(List<DailyWeatherInfo> dailyWeatherInfoList) {
         Log.d(TAG, "getWeatherSuccess: " + dailyWeatherInfoList);
         initViewPagerAndTabLayout(dailyWeatherInfoList);
-
     }
 
     private void initViewPagerAndTabLayout(List<DailyWeatherInfo> dailyWeatherInfoList) {
@@ -88,7 +87,6 @@ public class DetailPageActivity extends AppCompatActivity implements IDetailPage
             @Override
             public void run() {
                 binding.vpDetail.setAdapter(detailViewPagerAdapter);
-
 
                 new TabLayoutMediator(binding.tabDetail, binding.vpDetail, new TabLayoutMediator.TabConfigurationStrategy() {
                     @Override

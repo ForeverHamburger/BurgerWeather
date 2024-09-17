@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/touming">
+
+    <ImageButton
+        android:id="@+id/ibtn_searched_city"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#1A1919"
+        android:layout_marginTop="2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_searched_city_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/chillax_medium"
+        android:text="Chang'an"
+        android:textColor="@color/white"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="@+id/ibtn_searched_city"
+        app:layout_constraintTop_toTopOf="@+id/ibtn_searched_city" />
+
+    <ImageButton
+        android:id="@+id/ibtn_search_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/touming"
+        android:src="@drawable/baseline_add_24"
+        android:layout_marginRight="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/ibtn_searched_city"
+        app:layout_constraintTop_toTopOf="@+id/ibtn_searched_city" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.example.mvpburgerweahter.utils;
+package com.example.mvpburgerweahter.utils.hefengutils;
 
 import android.util.Log;
 
@@ -8,8 +8,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class WeatherUtils {
-    private static final String KEY = "43ff8c31aadb43368907c21f96586fb0";
+public class WeatherUtils extends HeFengBase{
     private static final String BASE_URL = "https://devapi.qweather.com/v7/weather/";
     private static final String TAG = "WeatherUtils";
 

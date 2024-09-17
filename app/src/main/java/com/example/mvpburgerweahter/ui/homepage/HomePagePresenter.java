@@ -9,7 +9,7 @@ import com.example.mvpburgerweahter.databean.DailyWeatherInfo;
 import com.example.mvpburgerweahter.databean.HourlyWeatherInfo;
 import com.example.mvpburgerweahter.databean.LocationInfo;
 import com.example.mvpburgerweahter.databean.NowWeatherInfo;
-import com.example.mvpburgerweahter.utils.CitySearchUtils;
+import com.example.mvpburgerweahter.utils.hefengutils.CitySearchUtils;
 import com.example.mvpburgerweahter.utils.JsonUtils;
 
 import java.text.DecimalFormat;

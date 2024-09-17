@@ -1,12 +1,9 @@
 package com.example.mvpburgerweahter.ui.homepage;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.LinearGradient;
-import android.graphics.Shader;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,11 +13,9 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.mvpburgerweahter.R;
 import com.example.mvpburgerweahter.databinding.ActivityHomePageBinding;
-import com.example.mvpburgerweahter.ui.homepage.HomePagePresenter;
-import com.example.mvpburgerweahter.ui.homepage.IHomePageContract;
 import com.example.mvpburgerweahter.ui.homepage.view.HomePageFragment;
 import com.example.mvpburgerweahter.ui.homepage.view.adapters.ViewPagerAdapter;
-import com.example.mvpburgerweahter.ui.searchpage.SearchPageActivity;
+import com.example.mvpburgerweahter.ui.searchpage.view.SearchPageActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,15 +51,12 @@ public class HomePageActivity extends AppCompatActivity {
         List<HomePageFragment> fragmentList = new ArrayList<>();
 
         fragmentList.add(new HomePageFragment());
-        fragmentList.add(new HomePageFragment());
-        fragmentList.add(new HomePageFragment());
-        fragmentList.add(new HomePageFragment());
 
         // ViewPager初始化
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this, fragmentList);
         binding.vpShowWeather.setAdapter(viewPagerAdapter);
         // 设置预加载页面数量
-        binding.vpShowWeather.setOffscreenPageLimit(viewPagerAdapter.getItemCount()-1);
+        binding.vpShowWeather.setOffscreenPageLimit(viewPagerAdapter.getItemCount()-1 == 0 ? 1:viewPagerAdapter.getItemCount()-1);
         // 绑定顶部圆点指示器
         binding.circleCenter.setViewPager(binding.vpShowWeather);
     }
