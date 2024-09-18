@@ -50,9 +50,12 @@ dependencies {
     implementation ("com.google.code.gson:gson:2.11.0")
     implementation ("com.amap.api:location:6.4.7")
     implementation ("com.squareup.okhttp3:okhttp:4.12.0")
-    implementation ("in.srain.cube:ultra-ptr:1.0.11")
-    implementation ("me.relex:circleindicator:2.1.6")
 
-    implementation ("androidx.legacy:legacy-support-v4:1.0.0")
-    implementation ("com.github.bingoogolapple:BGARefreshLayout-Android:2.0.1")
+    // 下拉刷新
+    implementation ("in.srain.cube:ultra-ptr:1.0.11")
+    // 圆形指示器
+    implementation ("me.relex:circleindicator:2.1.6")
+    // Room数据库
+    implementation("androidx.room:room-runtime-android:2.7.0-alpha07")
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
 }

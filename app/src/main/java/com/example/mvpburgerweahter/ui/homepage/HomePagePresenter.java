@@ -41,8 +41,7 @@ public class HomePagePresenter implements IHomePageContract.IHomePagePresenter{
                             @Override
                             public void run() {
                                 // 获取位置Json信息
-                                String locationInformation = CitySearchUtils.getCityByTitude(longitude, latitude);
-                                LocationInfo locationInfo = JsonUtils.parseLocationJson(locationInformation);
+                                LocationInfo locationInfo = homePageModel.getCityByTitude(longitude, latitude);
                                 Log.d(TAG, "run: "+ locationInfo);
 
                                 NowWeatherInfo nowWeatherInfo = homePageModel.getNowWeatherInfo(locationInfo.getId());
@@ -72,9 +71,6 @@ public class HomePagePresenter implements IHomePageContract.IHomePagePresenter{
                 }
             }).start();
         }
-
-
-
 
     }
 }

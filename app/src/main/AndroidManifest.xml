@@ -40,6 +40,10 @@
             android:name="com.amap.api.v2.apikey"
             android:value="0776fe1cbcbf3a261360cad59c701f13" />
 
+        <meta-data
+            android:name="androidx.room.database.RoomDatabase"
+            android:value="com.example.mvpburgerweahter.room.InfoDatabase" />
+
         <activity
             android:name=".ui.MainActivity"
             android:exported="true">

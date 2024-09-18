@@ -12,7 +12,7 @@
         android:id="@+id/circle_center"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        app:layout_constraintBottom_toTopOf="@+id/vp_show_weather"
+        app:layout_constraintBottom_toTopOf="@+id/ptr_home_page"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -27,15 +27,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/vp_show_weather"
+    <in.srain.cube.views.ptr.PtrFrameLayout
+        android:id="@+id/ptr_home_page"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="50dp"
-        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" >
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_show_weather"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" />
+
+    </in.srain.cube.views.ptr.PtrFrameLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
