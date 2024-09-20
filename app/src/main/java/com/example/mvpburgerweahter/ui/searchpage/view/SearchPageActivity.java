@@ -1,5 +1,6 @@
 package com.example.mvpburgerweahter.ui.searchpage.view;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,6 +11,7 @@ import android.widget.ListAdapter;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.core.graphics.Insets;
@@ -57,7 +59,7 @@ public class SearchPageActivity extends AppCompatActivity implements ISearchPage
         searchLinearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
 
         gridLayoutManager = new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false);
-        searchedCityRecyclerAdapter = new SearchedCityRecyclerAdapter(citySearchedInfos);
+        searchedCityRecyclerAdapter = new SearchedCityRecyclerAdapter(this,citySearchedInfos);
 
         binding.rvSearchedCity.setLayoutManager(searchLinearLayoutManager);
         binding.rvSearchedCity.setAdapter(searchedCityRecyclerAdapter);
@@ -113,8 +115,8 @@ public class SearchPageActivity extends AppCompatActivity implements ISearchPage
     @Override
     public void getCitySuccess(List<LocationInfo> hotCityList, List<LocationInfo> cityList) {
 
-        hotCityRecyclerAdapter = new HotCityRecyclerAdapter(hotCityList,cityList);
-        cityManagerRecyclerAdapter = new CityManagerRecyclerAdapter(cityList);
+        hotCityRecyclerAdapter = new HotCityRecyclerAdapter(this,hotCityList,cityList);
+        cityManagerRecyclerAdapter = new CityManagerRecyclerAdapter(this,cityList);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -141,7 +143,36 @@ public class SearchPageActivity extends AppCompatActivity implements ISearchPage
     }
 
     @Override
+    public void updateCityManager(List<LocationInfo> savedCityList) {
+        cityManagerRecyclerAdapter.updateData(savedCityList);
+    }
+
+    @Override
     public void getCityFailed() {
 
+    }
+
+    public void addCityToCityList(LocationInfo info) {
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setTitle("CityList_Manager")
+                .setMessage("是否将 " + info.getName() + " 添加到城市管理列表中？")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        searchPagePresenter.saveCityToCityList(info);
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .create();
+        alertDialog.show();
+    }
+
+    public void deleteCity(String cityCode) {
+        searchPagePresenter.deleteCityFromCityList(cityCode);
     }
 }

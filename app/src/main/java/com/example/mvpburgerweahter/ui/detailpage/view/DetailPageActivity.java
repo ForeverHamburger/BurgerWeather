@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -61,6 +62,13 @@ public class DetailPageActivity extends AppCompatActivity implements IDetailPage
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        binding.ibtnRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.refreshWeatherDetail(cityIdKey);
             }
         });
     }
@@ -152,6 +160,45 @@ public class DetailPageActivity extends AppCompatActivity implements IDetailPage
     @Override
     public void getWeatherFailed() {
 
+    }
+
+    @Override
+    public void getRefreshWeatherSuccess(List<DailyWeatherInfo> dailyWeatherInfoList) {
+        List<DetailPageFragment> fragmentList = new ArrayList<>();
+        for (int i = 0; i < 7; i++) {
+            fragmentList.add(new DetailPageFragment(dailyWeatherInfoList.get(i)));
+        }
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                detailViewPagerAdapter.updateData(fragmentList);
+
+                TabLayout tabDetail = binding.tabDetail;
+                String[] upcomingWeekdays = TimeUtils.getUpcomingWeekdays();
+                List<String> nextSevenDays = TimeUtils.getNextSevenDays();
+                for (int i = 0; i < 7; i++) {
+                    TabLayout.Tab tab = tabDetail.getTabAt(i).setCustomView(getTabView());
+                    View customView = tab.getCustomView();
+                    if (customView != null) {
+                        TextView textView = customView.findViewById(R.id.tv_tab_title);
+                        TextView dateView = customView.findViewById(R.id.tv_tab_date);
+                        ImageView imageView = customView.findViewById(R.id.iv_tab_imageView);
+                        if(i == 0){
+                            textView.setText("Today");
+                            dateView.setText(nextSevenDays.get(i));
+                            imageView.setImageResource(R.drawable.bg_tab_selected);
+                            dateView.setTextColor(getResources().getColor(R.color.white));
+                        }else {
+                            textView.setText(upcomingWeekdays[i]);
+                            dateView.setText(nextSevenDays.get(i));
+                        }
+                    } else {
+                        Log.d(TAG, "run: " + i + "go wrong");
+                    }
+                }
+                Toast.makeText(DetailPageActivity.this, "数据更新完毕！好耶！", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public View getTabView() {

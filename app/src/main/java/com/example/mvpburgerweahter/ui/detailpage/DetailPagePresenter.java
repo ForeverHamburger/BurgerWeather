@@ -1,5 +1,7 @@
 package com.example.mvpburgerweahter.ui.detailpage;
 
+import android.content.Context;
+
 import com.example.mvpburgerweahter.databean.DailyWeatherInfo;
 
 import java.util.List;
@@ -11,7 +13,7 @@ public class DetailPagePresenter implements IDetailPageContract.IDetailPagePrese
 
     public DetailPagePresenter(IDetailPageContract.IDetailPageView detailPageView) {
         this.mdetailPageView = detailPageView;
-        mdetailPageModel = new DetailPageModel();
+        mdetailPageModel = new DetailPageModel((Context) detailPageView);
     }
 
     @Override
@@ -19,8 +21,19 @@ public class DetailPagePresenter implements IDetailPageContract.IDetailPagePrese
         new Thread(new Runnable() {
             @Override
             public void run() {
-                List<DailyWeatherInfo> dailyWeatherInfo = mdetailPageModel.getDailyWeatherInfo(cityCode);
-                mdetailPageView.getWeatherSuccess(dailyWeatherInfo);
+                List<DailyWeatherInfo> infos = mdetailPageModel.getDailyWeatherInfo(cityCode);
+                mdetailPageView.getWeatherSuccess(infos);
+            }
+        }).start();
+    }
+
+    @Override
+    public void refreshWeatherDetail(String cityCode) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                List<DailyWeatherInfo> infos = mdetailPageModel.refreshWeatherInfo(cityCode);
+                mdetailPageView.getRefreshWeatherSuccess(infos);
             }
         }).start();
     }

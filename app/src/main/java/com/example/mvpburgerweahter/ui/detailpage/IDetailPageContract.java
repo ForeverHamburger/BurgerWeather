@@ -12,14 +12,17 @@ public interface IDetailPageContract {
 
     interface IDetailPagePresenter {
         void getWeatherDetail(String cityCode);
+        void refreshWeatherDetail(String cityCode);
     }
 
     interface IDetailPageModel {
         List<DailyWeatherInfo> getDailyWeatherInfo(String cityCode);
+        List<DailyWeatherInfo> refreshWeatherInfo(String cityCode);
     }
 
     interface IDetailPageView {
         void getWeatherSuccess(List<DailyWeatherInfo> dailyWeatherInfoList);
         void getWeatherFailed();
+        void getRefreshWeatherSuccess(List<DailyWeatherInfo> dailyWeatherInfoList);
     }
 }

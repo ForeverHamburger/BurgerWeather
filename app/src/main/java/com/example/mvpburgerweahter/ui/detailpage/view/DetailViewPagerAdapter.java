@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.example.mvpburgerweahter.databean.LocationInfo;
+
 import java.util.List;
 
 public class DetailViewPagerAdapter extends FragmentStateAdapter {
@@ -33,5 +35,13 @@ public class DetailViewPagerAdapter extends FragmentStateAdapter {
             return fragmentList.get(position);
         }
         return null;
+    }
+
+    public void updateData(List<DetailPageFragment> fragmentList) {
+        // 检查新数据是否为空，避免更新空数据
+        if (fragmentList != null && fragmentList.size() > 0) {
+            this.fragmentList = fragmentList;
+            notifyDataSetChanged();
+        }
     }
 }

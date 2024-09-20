@@ -21,9 +21,10 @@ public class SearchedCityRecyclerAdapter extends RecyclerView.Adapter<SearchedCi
 
     private ViewHolder viewHolder;
     private List<LocationInfo> locationInfos;
-    private Context startContext;
+    private Context mContext;
 
-    public SearchedCityRecyclerAdapter(List<LocationInfo> hourlyWeatherInfoList) {
+    public SearchedCityRecyclerAdapter(Context context, List<LocationInfo> hourlyWeatherInfoList) {
+        this.mContext = context;
         this.locationInfos = hourlyWeatherInfoList;
     }
 
@@ -55,8 +56,15 @@ public class SearchedCityRecyclerAdapter extends RecyclerView.Adapter<SearchedCi
         holder.ibtnBackground.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(startContext, DetailPageActivity.class);
-                startContext.startActivity(intent);
+                Intent intent = new Intent(mContext, DetailPageActivity.class);
+                mContext.startActivity(intent);
+            }
+        });
+
+        holder.ibtnSeachedAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((SearchPageActivity) mContext).addCityToCityList(locationInfos.get(position));
             }
         });
     }

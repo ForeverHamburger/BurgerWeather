@@ -1,5 +1,10 @@
 package com.example.mvpburgerweahter.ui.searchpage.view;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mvpburgerweahter.R;
 import com.example.mvpburgerweahter.databean.LocationInfo;
+import com.example.mvpburgerweahter.ui.detailpage.view.DetailPageActivity;
 
 import java.util.List;
 
@@ -18,8 +24,9 @@ public class CityManagerRecyclerAdapter extends RecyclerView.Adapter<CityManager
 
     private ViewHolder viewHolder;
     private List<LocationInfo> mCityList;
-
-    public CityManagerRecyclerAdapter(List<LocationInfo> cityList) {
+    private Context mContext;
+    public CityManagerRecyclerAdapter(Context context, List<LocationInfo> cityList) {
+        this.mContext = context;
         this.mCityList = cityList;
     }
 
@@ -27,13 +34,12 @@ public class CityManagerRecyclerAdapter extends RecyclerView.Adapter<CityManager
         ImageButton ibtnMyCity;
         TextView tvMyCityName;
         TextView tvMyCityweather;
-        TextView tvMyCityTempHighAndLow;
         TextView tvMyCityTempreture;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            ibtnMyCity = itemView.findViewById(R.id.ibtn_my_city);
             tvMyCityName = itemView.findViewById(R.id.tv_my_city_name);
             tvMyCityweather = itemView.findViewById(R.id.tv_my_city_weather);
-            tvMyCityTempHighAndLow = itemView.findViewById(R.id.tv_my_city_temp_high_and_low);
             tvMyCityTempreture = itemView.findViewById(R.id.tv_my_city_tempreture);
         }
     }
@@ -47,12 +53,35 @@ public class CityManagerRecyclerAdapter extends RecyclerView.Adapter<CityManager
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.tvMyCityName.setText(mCityList.get(position).getName());
+
+        holder.ibtnMyCity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, DetailPageActivity.class);
+                intent.putExtra("cityId_key",mCityList.get(position).getId());
+                intent.putExtra("cityName_key",mCityList.get(position).getName());
+                mContext.startActivity(intent);
+            }
+        });
+
+        holder.ibtnMyCity.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ((SearchPageActivity)mContext).deleteCity(mCityList.get(position).getId());
+                return false;
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return mCityList == null ? 0 : mCityList.size();
+    }
+
+    public void updateData(List<LocationInfo> cityList) {
+        this.mCityList = cityList;
+        notifyDataSetChanged();
     }
 }

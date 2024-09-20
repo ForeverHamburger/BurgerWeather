@@ -103,6 +103,7 @@ public class JsonUtils {
     }
 
     public static List<LocationInfo> parseSearchCityJson(String jsonStr) {
+        Log.d(TAG, "test: " + jsonStr);
         List<LocationInfo> infos = new ArrayList<>();
         try {
             JSONObject locationJson = new JSONObject(jsonStr);

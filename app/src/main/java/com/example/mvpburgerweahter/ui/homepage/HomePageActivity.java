@@ -3,6 +3,7 @@ package com.example.mvpburgerweahter.ui.homepage;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 
 import androidx.activity.EdgeToEdge;
@@ -12,10 +13,14 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.mvpburgerweahter.R;
+import com.example.mvpburgerweahter.databean.LocationInfo;
 import com.example.mvpburgerweahter.databinding.ActivityHomePageBinding;
+import com.example.mvpburgerweahter.manager.CityListManager;
+import com.example.mvpburgerweahter.room.citylist.CityListInfo;
 import com.example.mvpburgerweahter.ui.homepage.view.HomePageFragment;
 import com.example.mvpburgerweahter.ui.homepage.view.adapters.ViewPagerAdapter;
 import com.example.mvpburgerweahter.ui.searchpage.view.SearchPageActivity;
+import com.example.mvpburgerweahter.utils.JsonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +32,11 @@ import in.srain.cube.views.ptr.header.MaterialHeader;
 import in.srain.cube.views.ptr.util.PtrLocalDisplay;
 
 public class HomePageActivity extends AppCompatActivity {
+    private final static String TAG = "HomePageActivity";
     private HomePagePresenter homePagePresenter;
     private ActivityHomePageBinding binding;
+    private List<HomePageFragment> homePageFragments;
+    private ViewPagerAdapter viewPagerAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,14 +59,19 @@ public class HomePageActivity extends AppCompatActivity {
         });
     }
 
-    private void initViews() {
-        // fragment的数据初始化创建
-        List<HomePageFragment> fragmentList = new ArrayList<>();
-        fragmentList.add(new HomePageFragment());
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        // 刷新fragmentList
+        homePageFragments = initFragmentList();
+        viewPagerAdapter.updateFragmentList(homePageFragments);
+    }
 
+    private void initViews() {
+        homePageFragments = initFragmentList();
 
         // ViewPager初始化
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this, fragmentList);
+        viewPagerAdapter = new ViewPagerAdapter(this, homePageFragments);
         binding.vpShowWeather.setAdapter(viewPagerAdapter);
         // 设置预加载页面数量
         binding.vpShowWeather.setOffscreenPageLimit(viewPagerAdapter.getItemCount()-1 == 0 ? 1:viewPagerAdapter.getItemCount()-1);
@@ -78,8 +91,35 @@ public class HomePageActivity extends AppCompatActivity {
         ptrHomePage.setPtrHandler(new PtrDefaultHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
+                // 刷新内层数据
+                int itemCount = binding.vpShowWeather.getCurrentItem();
+                homePageFragments.get(itemCount).refreshWeatherMethod(getApplicationContext());
+
                 ptrHomePage.refreshComplete();
             }
         });
+    }
+
+    private List<HomePageFragment> initFragmentList() {
+        // fragment的数据初始化创建
+        List<HomePageFragment> fragmentList = new ArrayList<>();
+        fragmentList.add(new HomePageFragment("MyLocation"));
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                CityListManager cityListManager = new CityListManager(getApplicationContext());
+                List<CityListInfo> cityListInfos = cityListManager.showAllCityList();
+                Log.d(TAG, "run: " + cityListInfos);
+
+                for (CityListInfo cityListInfo : cityListInfos) {
+                    String locationInfo = cityListInfo.getLocationInfo();
+                    LocationInfo info = JsonUtils.parseLocationJson(locationInfo);
+                    fragmentList.add(new HomePageFragment(info.getId()));
+                }
+            }
+        }).start();
+
+        return fragmentList;
     }
 }

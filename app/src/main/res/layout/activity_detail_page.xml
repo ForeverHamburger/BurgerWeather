@@ -32,6 +32,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageButton
+        android:id="@+id/ibtn_refresh"
+        android:layout_width="70dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/btn_click_search_hui"
+        android:layout_marginRight="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_refresh"
+        android:layout_width="50dp"
+        android:layout_height="32dp"
+        android:layout_marginRight="40dp"
+        android:src="@drawable/pic_refresh"
+        app:layout_constraintBottom_toBottomOf="@+id/ibtn_refresh"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ibtn_refresh" />
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_detail"
         android:layout_width="match_parent"

@@ -28,6 +28,52 @@ public class HomePagePresenter implements IHomePageContract.IHomePagePresenter{
     @Override
     public void getWeatherDetail() {
         if (mcityCode.equals("MyLocation")) {
+            Log.d(TAG, "getWeatherDetail: "+ "正在获取本地位置");
+
+            // 若是暂时未能获取到，则先展示此前的界面
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    // 获取位置Json信息
+                    LocationInfo locationInfo = homePageModel.getCityByTitude("longitude", "latitude");
+                    Log.d(TAG, "run: "+ locationInfo);
+
+                    homePageModel.saveToDataBase(locationInfo.getId());
+
+                    NowWeatherInfo nowWeatherInfo = homePageModel.getNowWeatherInfo(locationInfo.getId());
+                    List<HourlyWeatherInfo> hourlyWeatherInfos = homePageModel.getHourlyWeatherInfo(locationInfo.getId());
+                    List<DailyWeatherInfo> dailyWeatherInfos = homePageModel.getDailyWeatherInfo(locationInfo.getId());
+                    Log.d(TAG, "run: " + nowWeatherInfo);
+
+                    homePageView.getWeatherSuccess(locationInfo,nowWeatherInfo,hourlyWeatherInfos,dailyWeatherInfos);
+                }
+            }).start();
+        } else {
+            // 非本地则调用此方法
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    LocationInfo locationInfo = homePageModel.getLocationByCityCode(mcityCode);
+
+                    homePageModel.saveToDataBase(mcityCode);
+
+                    NowWeatherInfo nowWeatherInfo = homePageModel.getNowWeatherInfo(locationInfo.getId());
+                    List<HourlyWeatherInfo> hourlyWeatherInfos = homePageModel.getHourlyWeatherInfo(locationInfo.getId());
+                    List<DailyWeatherInfo> dailyWeatherInfos = homePageModel.getDailyWeatherInfo(locationInfo.getId());
+                    Log.d(TAG, "run: " + nowWeatherInfo);
+
+                    homePageView.getWeatherSuccess(locationInfo,nowWeatherInfo,hourlyWeatherInfos,dailyWeatherInfos);
+                }
+            }).start();
+        }
+
+    }
+
+    @Override
+    public void refreshWeatherPage(String cityCode) {
+        if (mcityCode.equals("MyLocation")) {
+            Log.d(TAG, "refreshWeatherPage: "+ "正在获取本地位置");
+            // 获取位置信息
             homePageModel.getLocationMsg(new AMapLocationListener() {
                 @Override
                 public void onLocationChanged(AMapLocation aMapLocation) {
@@ -44,6 +90,8 @@ public class HomePagePresenter implements IHomePageContract.IHomePagePresenter{
                                 LocationInfo locationInfo = homePageModel.getCityByTitude(longitude, latitude);
                                 Log.d(TAG, "run: "+ locationInfo);
 
+                                homePageModel.updateToDataBase(locationInfo.getId());
+
                                 NowWeatherInfo nowWeatherInfo = homePageModel.getNowWeatherInfo(locationInfo.getId());
                                 List<HourlyWeatherInfo> hourlyWeatherInfos = homePageModel.getHourlyWeatherInfo(locationInfo.getId());
                                 List<DailyWeatherInfo> dailyWeatherInfos = homePageModel.getDailyWeatherInfo(locationInfo.getId());
@@ -56,12 +104,12 @@ public class HomePagePresenter implements IHomePageContract.IHomePagePresenter{
                 }
             });
         } else {
+            // 非本地则调用此方法
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    String locationByCityCode = homePageModel.getLocationByCityCode(mcityCode);
-                    LocationInfo locationInfo = JsonUtils.parseLocationJson(locationByCityCode);
-
+                    LocationInfo locationInfo = homePageModel.getLocationByCityCode(mcityCode);
+                    homePageModel.updateToDataBase(mcityCode);
                     NowWeatherInfo nowWeatherInfo = homePageModel.getNowWeatherInfo(locationInfo.getId());
                     List<HourlyWeatherInfo> hourlyWeatherInfos = homePageModel.getHourlyWeatherInfo(locationInfo.getId());
                     List<DailyWeatherInfo> dailyWeatherInfos = homePageModel.getDailyWeatherInfo(locationInfo.getId());
@@ -71,6 +119,5 @@ public class HomePagePresenter implements IHomePageContract.IHomePagePresenter{
                 }
             }).start();
         }
-
     }
 }

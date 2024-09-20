@@ -36,4 +36,9 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
         }
         return null;
     }
+
+    public void updateFragmentList(List<HomePageFragment> fragmentList) {
+        this.fragmentList = fragmentList;
+        notifyDataSetChanged();
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.mvpburgerweahter.ui.searchpage;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.example.mvpburgerweahter.databean.LocationInfo;
@@ -13,7 +14,7 @@ public class SearchPagePresenter implements ISearchPageContract.ISearchPagePrese
 
     public SearchPagePresenter(ISearchPageContract.ISearchPageView searchPageView) {
         this.mSearchPageView = searchPageView;
-        mSearchPageModel = new SearchPageModel();
+        mSearchPageModel = new SearchPageModel((Context) searchPageView);
     }
 
     @Override
@@ -37,5 +38,22 @@ public class SearchPagePresenter implements ISearchPageContract.ISearchPagePrese
                 mSearchPageView.getElasticSearchSuccess(elasticSearchCityList);
             }
         }).start();
+    }
+
+    @Override
+    public void saveCityToCityList(LocationInfo info) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mSearchPageModel.saveCityToDatabase(info);
+                List<LocationInfo> savedCityList = mSearchPageModel.getSavedCityList();
+                mSearchPageView.updateCityManager(savedCityList);
+            }
+        }).start();
+    }
+
+    @Override
+    public void deleteCityFromCityList(String cityCode) {
+        new Thread(new Runnable() {
     }
 }

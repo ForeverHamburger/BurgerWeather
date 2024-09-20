@@ -1,5 +1,6 @@
 package com.example.mvpburgerweahter.ui.homepage.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.LinearGradient;
 import android.graphics.Shader;
@@ -10,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +39,7 @@ import java.util.List;
  */
 public class HomePageFragment extends Fragment implements IHomePageContract.IHomePageView {
 
+    private static final String TAG = "HomePageFragment";
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
@@ -44,13 +47,13 @@ public class HomePageFragment extends Fragment implements IHomePageContract.IHom
     private FragmentHomePageBinding binding;
     private LocationInfo mlocationInfo;
     private HomePagePresenter homePagePresenter;
-    private String cityCode = "MyLocation";
+    private String mCityCode = "MyLocation";
 
     public HomePageFragment() {
         // Required empty public constructor
     }
-    public HomePageFragment(String cityCode) {
-        this.cityCode = cityCode;
+    public HomePageFragment(String mCityCode) {
+        this.mCityCode = mCityCode;
     }
 
     public static HomePageFragment newInstance(String param1, String param2) {
@@ -86,8 +89,9 @@ public class HomePageFragment extends Fragment implements IHomePageContract.IHom
         setTextViewStyles(binding.tvTempreture);
 
         // 绑定Presenter
-        homePagePresenter = new HomePagePresenter(this,getActivity(),cityCode);
+        homePagePresenter = new HomePagePresenter(this, getActivity(), mCityCode);
         homePagePresenter.getWeatherDetail();
+        Log.d(TAG, "onViewCreated: " + mCityCode + "presenter绑定完成");
 
         binding.btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,6 +106,14 @@ public class HomePageFragment extends Fragment implements IHomePageContract.IHom
                 }
             }
         });
+    }
+
+    public void refreshWeatherMethod(Context context) {
+        if (homePagePresenter != null) {
+            homePagePresenter.refreshWeatherPage(mCityCode);
+        } else {
+            Toast.makeText(context, "加载中，请重试", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
