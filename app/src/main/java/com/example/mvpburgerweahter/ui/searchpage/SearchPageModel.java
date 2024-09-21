@@ -59,8 +59,12 @@ public class SearchPageModel implements ISearchPageContract.ISearchPageModel{
     @Override
     public List<LocationInfo> getElasticSearchCityList(String searchString) {
         String cityByNameSearch = CitySearchUtils.getCityByNameSearch(searchString);
-        List<LocationInfo> infos = JsonUtils.parseSearchCityJson(cityByNameSearch);
-        return infos;
+        if (cityByNameSearch.equals("{\"code\":\"404\"}")) {
+            return null;
+        } else {
+            List<LocationInfo> infos = JsonUtils.parseSearchCityJson(cityByNameSearch);
+            return infos;
+        }
     }
 
     @Override
@@ -75,4 +79,8 @@ public class SearchPageModel implements ISearchPageContract.ISearchPageModel{
         cityListManager.insertCityInfo(new CityListInfo(info.getId(),locationJson));
     }
 
+    @Override
+    public void deleteCityFromDatabase(String cityCode) {
+        cityListManager.deleteCityInfo(cityCode);
+    }
 }

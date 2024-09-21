@@ -21,6 +21,7 @@ public interface ISearchPageContract {
         List<LocationInfo> getHotCityList();
         List<LocationInfo> getElasticSearchCityList(String searchString);
         void saveCityToDatabase(LocationInfo info);
+        void deleteCityFromDatabase(String cityCode);
     }
 
     interface ISearchPageView {

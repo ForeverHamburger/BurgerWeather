@@ -69,7 +69,7 @@ public class CityManagerRecyclerAdapter extends RecyclerView.Adapter<CityManager
         holder.ibtnMyCity.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                ((SearchPageActivity)mContext).deleteCity(mCityList.get(position).getId());
+                ((SearchPageActivity)mContext).deleteCity(mCityList.get(position));
                 return false;
             }
         });

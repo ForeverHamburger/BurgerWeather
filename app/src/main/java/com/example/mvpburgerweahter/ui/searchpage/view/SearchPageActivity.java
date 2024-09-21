@@ -68,7 +68,6 @@ public class SearchPageActivity extends AppCompatActivity implements ISearchPage
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    Toast.makeText(SearchPageActivity.this, "获取到EditText焦点", Toast.LENGTH_SHORT).show();
                     MotionLayout searchPageMotionLayout = binding.searchPageMotionLayout;
                     searchPageMotionLayout.setTransition(R.id.transition_search_page);
                     searchPageMotionLayout.transitionToEnd();
@@ -98,7 +97,6 @@ public class SearchPageActivity extends AppCompatActivity implements ISearchPage
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.toString().length() > 0) {
-                    Toast.makeText(SearchPageActivity.this, "haha" + s.toString(), Toast.LENGTH_SHORT).show();
                     searchPagePresenter.getElasticSearch(s.toString());
                 }
             }
@@ -144,12 +142,22 @@ public class SearchPageActivity extends AppCompatActivity implements ISearchPage
 
     @Override
     public void updateCityManager(List<LocationInfo> savedCityList) {
-        cityManagerRecyclerAdapter.updateData(savedCityList);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                cityManagerRecyclerAdapter.updateData(savedCityList);
+            }
+        });
     }
 
     @Override
     public void getCityFailed() {
-
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), "搜索不到你要的城市啊！", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void addCityToCityList(LocationInfo info) {
@@ -172,7 +180,24 @@ public class SearchPageActivity extends AppCompatActivity implements ISearchPage
         alertDialog.show();
     }
 
-    public void deleteCity(String cityCode) {
-        searchPagePresenter.deleteCityFromCityList(cityCode);
+    public void deleteCity(LocationInfo info) {
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setTitle("CityList_Manager")
+                .setMessage("是否将 " + info.getName() + " 从城市管理列表中删除？")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        searchPagePresenter.deleteCityFromCityList(info.getId());
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .create();
+        alertDialog.show();
+
     }
 }

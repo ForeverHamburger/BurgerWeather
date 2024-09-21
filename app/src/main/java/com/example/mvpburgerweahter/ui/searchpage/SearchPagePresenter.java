@@ -35,7 +35,11 @@ public class SearchPagePresenter implements ISearchPageContract.ISearchPagePrese
             @Override
             public void run() {
                 List<LocationInfo> elasticSearchCityList = mSearchPageModel.getElasticSearchCityList(searchString);
-                mSearchPageView.getElasticSearchSuccess(elasticSearchCityList);
+                if (elasticSearchCityList == null) {
+                    mSearchPageView.getCityFailed();
+                } else {
+                    mSearchPageView.getElasticSearchSuccess(elasticSearchCityList);
+                }
             }
         }).start();
     }
@@ -55,5 +59,12 @@ public class SearchPagePresenter implements ISearchPageContract.ISearchPagePrese
     @Override
     public void deleteCityFromCityList(String cityCode) {
         new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mSearchPageModel.deleteCityFromDatabase(cityCode);
+                List<LocationInfo> savedCityList = mSearchPageModel.getSavedCityList();
+                mSearchPageView.updateCityManager(savedCityList);
+            }
+        }).start();
     }
 }
