@@ -124,7 +124,9 @@ public class HomePageActivity extends AppCompatActivity {
                 for (CityListInfo cityListInfo : cityListInfos) {
                     String locationInfo = cityListInfo.getLocationInfo();
                     LocationInfo info = JsonUtils.parseLocationJson(locationInfo);
-                    fragmentList.add(new HomePageFragment(info.getId()));
+                    Log.d(TAG, "run: " + info.getId());
+                    HomePageFragment homePageFragment = new HomePageFragment(info.getId());
+                    fragmentList.add(homePageFragment);
                 }
 
                 latch.countDown();

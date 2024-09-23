@@ -47,13 +47,13 @@ public class HomePageFragment extends Fragment implements IHomePageContract.IHom
     private FragmentHomePageBinding binding;
     private LocationInfo mlocationInfo;
     private HomePagePresenter homePagePresenter;
-    private String mCityCode = "MyLocation";
+    private String mCityCode = "";
 
     public HomePageFragment() {
         // Required empty public constructor
     }
-    public HomePageFragment(String mCityCode) {
-        this.mCityCode = mCityCode;
+    public HomePageFragment(String cityCode) {
+        this.mCityCode = cityCode;
     }
 
     public static HomePageFragment newInstance(String param1, String param2) {
@@ -89,7 +89,7 @@ public class HomePageFragment extends Fragment implements IHomePageContract.IHom
         setTextViewStyles(binding.tvTempreture);
 
         // 绑定Presenter
-        homePagePresenter = HomePagePresenter.getInstance(this, getActivity(), mCityCode);
+        homePagePresenter = new HomePagePresenter(this, getActivity(), mCityCode);
         homePagePresenter.getWeatherDetail();
         Log.d(TAG, "onViewCreated: " + mCityCode + "presenter绑定完成");
 
@@ -110,7 +110,7 @@ public class HomePageFragment extends Fragment implements IHomePageContract.IHom
 
     public void refreshWeatherMethod(Context context) {
         Log.d(TAG, "refreshWeatherMethod: " + mCityCode);
-        homePagePresenter = HomePagePresenter.getInstance(this, getActivity(), mCityCode);
+        homePagePresenter = new HomePagePresenter(this, getActivity(), mCityCode);
         if (homePagePresenter != null) {
             homePagePresenter.refreshWeatherPage(mCityCode);
             Toast.makeText(context, "刷新成功！", Toast.LENGTH_SHORT).show();

@@ -46,10 +46,10 @@ public class CitySearchUtils extends HeFengBase{
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
                 resultResponse = response.body().string();
-                Log.d(TAG, "getCityByAdCode: " + resultResponse);
+                Log.d(TAG, "getCityByTitude: " + resultResponse);
             }
         } catch (IOException e) {
-            Log.d(TAG, "getCityByAdCode: error");
+            Log.d(TAG, "getCityByTitude: error");
         }
         return resultResponse;
     }

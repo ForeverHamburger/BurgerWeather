@@ -36,7 +36,8 @@ public class SearchPageModel implements ISearchPageContract.ISearchPageModel{
     public List<LocationInfo> getSavedCityList() {
         List<LocationInfo> infos = new ArrayList<>();
 
-        WeatherAndCityInfo info = infoDao.findByCityCode("now location");
+        WeatherAndCityInfo info = infoDao.findByCityCode("101110102");
+        Log.d(TAG, "getSavedCityList: " + info);
         LocationInfo nowLocation = JsonUtils.parseLocationJson(info.getLocationJson());
         infos.add(nowLocation);
 
@@ -54,7 +55,7 @@ public class SearchPageModel implements ISearchPageContract.ISearchPageModel{
     public List<NowWeatherInfo> getSavedWeatherList() {
         List<NowWeatherInfo> infos = new ArrayList<>();
 
-        WeatherAndCityInfo info = infoDao.findByCityCode("now location");
+        WeatherAndCityInfo info = infoDao.findByCityCode("101110102");
         Log.d("hhhhhhaaadswadsawds", "getSavedWeatherList: " + info);
         NowWeatherInfo nowWeatherInfo = JsonUtils.parseNowWeatherJson(info.getWeatherJson());
         infos.add(nowWeatherInfo);

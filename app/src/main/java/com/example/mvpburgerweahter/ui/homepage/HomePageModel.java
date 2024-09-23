@@ -66,6 +66,11 @@ public class HomePageModel implements IHomePageContract.IHomePageModel{
         } else {
             Log.d(TAG, "getCityByTitude: " + "getlocation by network");
             String locationInformation = CitySearchUtils.getCityByTitude(longitude, latitude);
+            Log.d(TAG, "getCityByTitude: " + locationInformation);
+            if (locationInformation.contains("404")) {
+                Log.d(TAG, "getCityByTitude: " + locationInformation);
+                return null;
+            }
             locationInfo = JsonUtils.parseLocationJson(locationInformation);
             infoDao.updateInfos(new WeatherAndCityInfo("now location",locationInformation));
         }
@@ -132,7 +137,7 @@ public class HomePageModel implements IHomePageContract.IHomePageModel{
 
     public void saveToDataBase(String cityCode) {
         if (infoDao.findByCityCode(cityCode) != null) {
-            Log.d(TAG, "saveToDataBase: " + "数据库里有了兄弟们");
+            Log.d(TAG, "saveToDataBase: " +cityCode+ "数据库里有了兄弟们");
         } else {
             Log.d(TAG, "saveToDataBase: " + "存了兄弟们");
             String cityByCityCode = CitySearchUtils.getCityByCityCode(cityCode);
@@ -156,9 +161,6 @@ public class HomePageModel implements IHomePageContract.IHomePageModel{
         Log.d(TAG, "updateToDataBase: " + locationInfo);
         infoDao.updateInfos(new WeatherAndCityInfo(cityCode,cityByCityCode,
                 nowWeatherInfo,hourlyWeatherInfo,dailyWeatherInfo));
-
-        WeatherAndCityInfo byCityCode = infoDao.findByCityCode("now location");
-        Log.d(TAG, "updateToDataBase: " + byCityCode.getWeatherJson());
     }
 
     public void updateToDataBase(String cityCode,String flag) {

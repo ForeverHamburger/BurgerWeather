@@ -16,7 +16,6 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 public class HomePagePresenter implements IHomePageContract.IHomePagePresenter{
-    private static HomePagePresenter INSTANCE = null;
     private static final String TAG = "HomePagePresenter";
     private IHomePageContract.IHomePageView homePageView;
     private HomePageModel homePageModel;
@@ -26,37 +25,53 @@ public class HomePagePresenter implements IHomePageContract.IHomePagePresenter{
         this.homePageView = view;
         this.mcityCode = cityCode;
     }
-
-    public static HomePagePresenter getInstance(IHomePageContract.IHomePageView view,Context context,String cityCode) {
-        if (INSTANCE == null) {
-            INSTANCE = new HomePagePresenter(view,context,cityCode);
-        }
-        return INSTANCE;
-    }
     @Override
     public void getWeatherDetail() {
+        Log.d(TAG, "getWeatherDetail: " + mcityCode);
         if (mcityCode.equals("MyLocation")) {
             Log.d(TAG, "getWeatherDetail: "+ "正在获取本地位置");
             // 若是暂时未能获取到，则先展示此前的界面
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    // 获取位置Json信息
+//                    LocationInfo locationInfo = homePageModel.getCityByTitude("longitude", "latitude");
+//                    Log.d(TAG, "run1111: "+ locationInfo);
+//
+//                    if (locationInfo == null) {
+//                        getLocation();
+//                    } else {
+//                        homePageModel.saveToDataBase(locationInfo.getId());
+//
+//                        NowWeatherInfo nowWeatherInfo = homePageModel.getNowWeatherInfo("now location");
+//                        List<HourlyWeatherInfo> hourlyWeatherInfos = homePageModel.getHourlyWeatherInfo("now location");
+//                        List<DailyWeatherInfo> dailyWeatherInfos = homePageModel.getDailyWeatherInfo("now location");
+//                        Log.d(TAG, "run: " + nowWeatherInfo);
+//
+//                        homePageView.getWeatherSuccess(locationInfo,nowWeatherInfo,hourlyWeatherInfos,dailyWeatherInfos);
+//                    }
+//                }
+//            }).start();
+
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    // 获取位置Json信息
-                    LocationInfo locationInfo = homePageModel.getCityByTitude("longitude", "latitude");
-                    Log.d(TAG, "run: "+ locationInfo);
+                    LocationInfo locationInfo = homePageModel.getLocationByCityCode("101110102");
 
-                    homePageModel.saveToDataBase(locationInfo.getId());
+                    homePageModel.saveToDataBase("101110102");
 
-                    NowWeatherInfo nowWeatherInfo = homePageModel.getNowWeatherInfo("now location");
-                    List<HourlyWeatherInfo> hourlyWeatherInfos = homePageModel.getHourlyWeatherInfo("now location");
-                    List<DailyWeatherInfo> dailyWeatherInfos = homePageModel.getDailyWeatherInfo("now location");
+                    NowWeatherInfo nowWeatherInfo = homePageModel.getNowWeatherInfo(locationInfo.getId());
+                    List<HourlyWeatherInfo> hourlyWeatherInfos = homePageModel.getHourlyWeatherInfo(locationInfo.getId());
+                    List<DailyWeatherInfo> dailyWeatherInfos = homePageModel.getDailyWeatherInfo(locationInfo.getId());
                     Log.d(TAG, "run: " + nowWeatherInfo);
 
                     homePageView.getWeatherSuccess(locationInfo,nowWeatherInfo,hourlyWeatherInfos,dailyWeatherInfos);
                 }
             }).start();
+
         } else {
             // 非本地则调用此方法
+            Log.d(TAG, "getWeatherDetail: " + "获取非本地位置");
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -128,5 +143,40 @@ public class HomePagePresenter implements IHomePageContract.IHomePagePresenter{
                 }
             }).start();
         }
+    }
+
+    private void getLocation() {
+        Log.d(TAG, "getLocation: "+"12312");
+        homePageModel.getLocationMsg(new AMapLocationListener() {
+            @Override
+            public void onLocationChanged(AMapLocation aMapLocation) {
+                if (aMapLocation.getErrorCode() == 0) {
+                    // 获取经度纬度
+                    DecimalFormat decimalFormat = new DecimalFormat("#.00");
+                    String longitude = decimalFormat.format(aMapLocation.getLongitude());
+                    String latitude = decimalFormat.format(aMapLocation.getLatitude());
+                    Log.d(TAG, "onLocationChanged:" + longitude + "," + latitude);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // 获取位置Json信息
+                            LocationInfo locationInfo = homePageModel.getCityByTitudeUpdate(longitude, latitude);
+                            Log.d(TAG, "getLocation: "+ locationInfo);
+
+                            homePageModel.saveToDataBase("now location");
+
+                            Log.d("hhhhahaaha", "getLocation: " + locationInfo.getName());
+
+                            NowWeatherInfo nowWeatherInfo = homePageModel.getNowWeatherInfo("now location");
+                            List<HourlyWeatherInfo> hourlyWeatherInfos = homePageModel.getHourlyWeatherInfo("now location");
+                            List<DailyWeatherInfo> dailyWeatherInfos = homePageModel.getDailyWeatherInfo("now location");
+                            Log.d(TAG, "run: " + nowWeatherInfo);
+
+                            homePageView.getWeatherSuccess(locationInfo,nowWeatherInfo,hourlyWeatherInfos,dailyWeatherInfos);
+                        }
+                    }).start();
+                }
+            }
+        });
     }
 }

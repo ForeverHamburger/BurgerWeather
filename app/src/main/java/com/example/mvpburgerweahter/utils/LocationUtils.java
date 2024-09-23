@@ -27,11 +27,16 @@ public class LocationUtils {
 
     private void initLocationClient(Context context) {
 
+        AMapLocationClient.updatePrivacyShow(context, true, true);
+        AMapLocationClient.updatePrivacyAgree(context, true);
+
         try {
             mLocationClient = new AMapLocationClient(context);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+
 
         // 设置定位模式
         // 高精度定位模式：会同时使用网络定位和GPS定位，优先返回最高精度的定位结果，以及对应的地址描述信息。
