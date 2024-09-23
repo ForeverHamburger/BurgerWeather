@@ -81,4 +81,12 @@ public class HotCityRecyclerAdapter extends RecyclerView.Adapter<HotCityRecycler
     public int getItemCount() {
         return mHotCityList == null ? 0 : mHotCityList.size();
     }
+
+    public void updateData(String cityCode) {
+        for (int i = 0; i < mCityList.size(); i++) {
+            if (mCityList.get(i).getId().equals(cityCode)) {
+
+            }
+        }
+    }
 }

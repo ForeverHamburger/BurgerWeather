@@ -25,7 +25,7 @@ public class JsonUtils {
             JSONObject locationJson = new JSONObject(jsonStr);
             JSONArray location = locationJson.optJSONArray("location");
             JSONObject jsonObject = location.optJSONObject(0);
-            Log.d(TAG, "parseJsonData: " + jsonObject);
+            Log.d(TAG, "parseLocationJson: " + jsonObject);
             Gson gson = new Gson();
             locationInfo = gson.fromJson(String.valueOf(jsonObject), LocationInfo.class);
         } catch (JSONException e) {
@@ -41,9 +41,9 @@ public class JsonUtils {
             String nowJson = locationJson.optString("now");
             Gson gson = new Gson();
             info = gson.fromJson(String.valueOf(nowJson), NowWeatherInfo.class);
-            Log.d(TAG, "parseJsonData: " + nowJson);
+            Log.d(TAG, "parseNowWeatherJson: " + nowJson);
         } catch (JSONException e) {
-            Log.d(TAG, "parseJsonData: 解析Json数据失败");
+            Log.d(TAG, "parseNowWeatherJson: 解析Json数据失败");
         }
         return info;
     }

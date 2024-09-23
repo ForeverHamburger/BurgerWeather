@@ -16,6 +16,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 public class HomePagePresenter implements IHomePageContract.IHomePagePresenter{
+    private static HomePagePresenter INSTANCE = null;
     private static final String TAG = "HomePagePresenter";
     private IHomePageContract.IHomePageView homePageView;
     private HomePageModel homePageModel;
@@ -25,11 +26,17 @@ public class HomePagePresenter implements IHomePageContract.IHomePagePresenter{
         this.homePageView = view;
         this.mcityCode = cityCode;
     }
+
+    public static HomePagePresenter getInstance(IHomePageContract.IHomePageView view,Context context,String cityCode) {
+        if (INSTANCE == null) {
+            INSTANCE = new HomePagePresenter(view,context,cityCode);
+        }
+        return INSTANCE;
+    }
     @Override
     public void getWeatherDetail() {
         if (mcityCode.equals("MyLocation")) {
             Log.d(TAG, "getWeatherDetail: "+ "正在获取本地位置");
-
             // 若是暂时未能获取到，则先展示此前的界面
             new Thread(new Runnable() {
                 @Override
@@ -40,9 +47,9 @@ public class HomePagePresenter implements IHomePageContract.IHomePagePresenter{
 
                     homePageModel.saveToDataBase(locationInfo.getId());
 
-                    NowWeatherInfo nowWeatherInfo = homePageModel.getNowWeatherInfo(locationInfo.getId());
-                    List<HourlyWeatherInfo> hourlyWeatherInfos = homePageModel.getHourlyWeatherInfo(locationInfo.getId());
-                    List<DailyWeatherInfo> dailyWeatherInfos = homePageModel.getDailyWeatherInfo(locationInfo.getId());
+                    NowWeatherInfo nowWeatherInfo = homePageModel.getNowWeatherInfo("now location");
+                    List<HourlyWeatherInfo> hourlyWeatherInfos = homePageModel.getHourlyWeatherInfo("now location");
+                    List<DailyWeatherInfo> dailyWeatherInfos = homePageModel.getDailyWeatherInfo("now location");
                     Log.d(TAG, "run: " + nowWeatherInfo);
 
                     homePageView.getWeatherSuccess(locationInfo,nowWeatherInfo,hourlyWeatherInfos,dailyWeatherInfos);
@@ -71,7 +78,7 @@ public class HomePagePresenter implements IHomePageContract.IHomePagePresenter{
 
     @Override
     public void refreshWeatherPage(String cityCode) {
-        if (mcityCode.equals("MyLocation")) {
+        if (cityCode.equals("MyLocation")) {
             Log.d(TAG, "refreshWeatherPage: "+ "正在获取本地位置");
             // 获取位置信息
             homePageModel.getLocationMsg(new AMapLocationListener() {
@@ -87,14 +94,16 @@ public class HomePagePresenter implements IHomePageContract.IHomePagePresenter{
                             @Override
                             public void run() {
                                 // 获取位置Json信息
-                                LocationInfo locationInfo = homePageModel.getCityByTitude(longitude, latitude);
+                                LocationInfo locationInfo = homePageModel.getCityByTitudeUpdate(longitude, latitude);
                                 Log.d(TAG, "run: "+ locationInfo);
 
-                                homePageModel.updateToDataBase(locationInfo.getId());
+                                homePageModel.updateToDataBase(locationInfo.getId(),"now location");
 
-                                NowWeatherInfo nowWeatherInfo = homePageModel.getNowWeatherInfo(locationInfo.getId());
-                                List<HourlyWeatherInfo> hourlyWeatherInfos = homePageModel.getHourlyWeatherInfo(locationInfo.getId());
-                                List<DailyWeatherInfo> dailyWeatherInfos = homePageModel.getDailyWeatherInfo(locationInfo.getId());
+                                Log.d("hhhhahaaha", "run: " + locationInfo.getName());
+
+                                NowWeatherInfo nowWeatherInfo = homePageModel.getNowWeatherInfo("now location");
+                                List<HourlyWeatherInfo> hourlyWeatherInfos = homePageModel.getHourlyWeatherInfo("now location");
+                                List<DailyWeatherInfo> dailyWeatherInfos = homePageModel.getDailyWeatherInfo("now location");
                                 Log.d(TAG, "run: " + nowWeatherInfo);
 
                                 homePageView.getWeatherSuccess(locationInfo,nowWeatherInfo,hourlyWeatherInfos,dailyWeatherInfos);

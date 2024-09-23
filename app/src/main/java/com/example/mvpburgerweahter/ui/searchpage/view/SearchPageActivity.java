@@ -6,6 +6,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.AbsListView;
 import android.widget.ListAdapter;
 import android.widget.Toast;
@@ -17,11 +20,14 @@ import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mvpburgerweahter.R;
 import com.example.mvpburgerweahter.databean.LocationInfo;
+import com.example.mvpburgerweahter.databean.NowWeatherInfo;
 import com.example.mvpburgerweahter.databinding.ActivitySearchPageBinding;
 import com.example.mvpburgerweahter.ui.searchpage.ISearchPageContract;
 import com.example.mvpburgerweahter.ui.searchpage.SearchPagePresenter;
@@ -110,11 +116,18 @@ public class SearchPageActivity extends AppCompatActivity implements ISearchPage
         });
     }
 
-    @Override
-    public void getCitySuccess(List<LocationInfo> hotCityList, List<LocationInfo> cityList) {
+    private void initAinm(RecyclerView recyclerView) {
+        Animation animation = AnimationUtils.loadAnimation(SearchPageActivity.this, R.anim.recycler_anim);
+        LayoutAnimationController layoutAnimationController = new LayoutAnimationController(animation);
+        layoutAnimationController.setOrder(LayoutAnimationController.ORDER_NORMAL);
+        layoutAnimationController.setDelay(0.2f);
+        recyclerView.setLayoutAnimation(layoutAnimationController);
+    }
 
+    @Override
+    public void getCitySuccess(List<LocationInfo> hotCityList, List<LocationInfo> cityList,List<NowWeatherInfo> savedWeatherList) {
         hotCityRecyclerAdapter = new HotCityRecyclerAdapter(this,hotCityList,cityList);
-        cityManagerRecyclerAdapter = new CityManagerRecyclerAdapter(this,cityList);
+        cityManagerRecyclerAdapter = new CityManagerRecyclerAdapter(this,cityList,savedWeatherList);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -123,6 +136,8 @@ public class SearchPageActivity extends AppCompatActivity implements ISearchPage
 
                 binding.rvCityManager.setLayoutManager(citylinearLayoutManager);
                 binding.rvCityManager.setAdapter(cityManagerRecyclerAdapter);
+
+                initAinm(binding.rvCityManager);
             }
         });
     }
@@ -135,17 +150,16 @@ public class SearchPageActivity extends AppCompatActivity implements ISearchPage
             public void run() {
                 searchedCityRecyclerAdapter.updateData(searchCityList);
                 binding.rvSearchedCity.setVisibility(View.VISIBLE);
-                Toast.makeText(SearchPageActivity.this, "haha", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     @Override
-    public void updateCityManager(List<LocationInfo> savedCityList) {
+    public void updateCityManager(List<LocationInfo> savedCityList,List<NowWeatherInfo> savedWeatherList) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                cityManagerRecyclerAdapter.updateData(savedCityList);
+                cityManagerRecyclerAdapter.updateData(savedCityList,savedWeatherList);
             }
         });
     }
@@ -168,6 +182,7 @@ public class SearchPageActivity extends AppCompatActivity implements ISearchPage
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         searchPagePresenter.saveCityToCityList(info);
+                        hotCityRecyclerAdapter.updateData(info.getId());
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {

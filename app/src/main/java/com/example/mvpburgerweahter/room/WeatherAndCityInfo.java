@@ -74,4 +74,15 @@ public class WeatherAndCityInfo {
     public void setForecastJsonPerDay(String forecastJsonPerDay) {
         this.forecastJsonPerDay = forecastJsonPerDay;
     }
+
+    @Override
+    public String toString() {
+        return "WeatherAndCityInfo{" +
+                "cityCode='" + cityCode + '\'' +
+                ", locationJson='" + locationJson + '\'' +
+                ", weatherJson='" + weatherJson + '\'' +
+                ", forcastJsonPerHour='" + forcastJsonPerHour + '\'' +
+                ", forecastJsonPerDay='" + forecastJsonPerDay + '\'' +
+                '}';
+    }
 }

@@ -56,6 +56,7 @@ public class HomePageModel implements IHomePageContract.IHomePageModel{
     }
     @Override
     public LocationInfo getCityByTitude(String longitude,String latitude) {
+        // 针对MyLocation的方法
         LocationInfo locationInfo = null;
         Log.d(TAG, "getCityByTitude: " + "getlocation start");
         if (infoDao.findByCityCode("now location") != null) {
@@ -66,10 +67,25 @@ public class HomePageModel implements IHomePageContract.IHomePageModel{
             Log.d(TAG, "getCityByTitude: " + "getlocation by network");
             String locationInformation = CitySearchUtils.getCityByTitude(longitude, latitude);
             locationInfo = JsonUtils.parseLocationJson(locationInformation);
-            infoDao.insertInfos(new WeatherAndCityInfo("now location",locationInformation));
+            infoDao.updateInfos(new WeatherAndCityInfo("now location",locationInformation));
         }
+        Log.d(TAG, "getCityByTitude: "+ locationInfo);
         return locationInfo;
     }
+
+    public LocationInfo getCityByTitudeUpdate(String longitude,String latitude) {
+        // 针对MyLocation的方法
+        LocationInfo locationInfo = null;
+        Log.d(TAG, "getCityByTitude: " + "getlocation by network");
+
+        String locationInformation = CitySearchUtils.getCityByTitude(longitude, latitude);
+        locationInfo = JsonUtils.parseLocationJson(locationInformation);
+        infoDao.updateInfos(new WeatherAndCityInfo("now location",locationInformation));
+        Log.d(TAG, "getCityByTitude: "+ locationInfo);
+        return locationInfo;
+    }
+
+
     @Override
     public NowWeatherInfo getNowWeatherInfo(String cityCode) {
         NowWeatherInfo info = null;
@@ -117,7 +133,6 @@ public class HomePageModel implements IHomePageContract.IHomePageModel{
     public void saveToDataBase(String cityCode) {
         if (infoDao.findByCityCode(cityCode) != null) {
             Log.d(TAG, "saveToDataBase: " + "数据库里有了兄弟们");
-            return;
         } else {
             Log.d(TAG, "saveToDataBase: " + "存了兄弟们");
             String cityByCityCode = CitySearchUtils.getCityByCityCode(cityCode);
@@ -132,10 +147,33 @@ public class HomePageModel implements IHomePageContract.IHomePageModel{
 
     public void updateToDataBase(String cityCode) {
         String cityByCityCode = CitySearchUtils.getCityByCityCode(cityCode);
-        String nowWeatherInfo = WeatherUtils.getNowWeatherInfo(cityCode);
-        String hourlyWeatherInfo = WeatherUtils.getHourlyWeatherInfo(cityCode);
-        String dailyWeatherInfo = WeatherUtils.getDailyWeatherInfo(cityCode);
+        LocationInfo locationInfo = JsonUtils.parseLocationJson(cityByCityCode);
+
+        String nowWeatherInfo = WeatherUtils.getNowWeatherInfo(locationInfo.getId());
+        String hourlyWeatherInfo = WeatherUtils.getHourlyWeatherInfo(locationInfo.getId());
+        String dailyWeatherInfo = WeatherUtils.getDailyWeatherInfo(locationInfo.getId());
+
+        Log.d(TAG, "updateToDataBase: " + locationInfo);
         infoDao.updateInfos(new WeatherAndCityInfo(cityCode,cityByCityCode,
                 nowWeatherInfo,hourlyWeatherInfo,dailyWeatherInfo));
+
+        WeatherAndCityInfo byCityCode = infoDao.findByCityCode("now location");
+        Log.d(TAG, "updateToDataBase: " + byCityCode.getWeatherJson());
+    }
+
+    public void updateToDataBase(String cityCode,String flag) {
+        String cityByCityCode = CitySearchUtils.getCityByCityCode(cityCode);
+        LocationInfo locationInfo = JsonUtils.parseLocationJson(cityByCityCode);
+
+        String nowWeatherInfo = WeatherUtils.getNowWeatherInfo(locationInfo.getId());
+        String hourlyWeatherInfo = WeatherUtils.getHourlyWeatherInfo(locationInfo.getId());
+        String dailyWeatherInfo = WeatherUtils.getDailyWeatherInfo(locationInfo.getId());
+
+        Log.d(TAG, "updateToDataBase111: " + flag);
+        infoDao.updateInfos(new WeatherAndCityInfo(flag,cityByCityCode,
+                nowWeatherInfo,hourlyWeatherInfo,dailyWeatherInfo));
+
+        WeatherAndCityInfo byCityCode = infoDao.findByCityCode("now location");
+        Log.d(TAG, "updateToDataBase111: " + byCityCode.getWeatherJson());
     }
 }

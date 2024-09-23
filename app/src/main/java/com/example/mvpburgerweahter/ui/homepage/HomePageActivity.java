@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mvpburgerweahter.R;
 import com.example.mvpburgerweahter.databean.LocationInfo;
@@ -24,6 +25,7 @@ import com.example.mvpburgerweahter.utils.JsonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import in.srain.cube.views.ptr.PtrClassicDefaultHeader;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
@@ -63,8 +65,11 @@ public class HomePageActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         // 刷新fragmentList
+        Log.d(TAG, "onRestart: " + "开始刷新咯");
         homePageFragments = initFragmentList();
         viewPagerAdapter.updateFragmentList(homePageFragments);
+        binding.circleCenter.setViewPager(binding.vpShowWeather);
+        Log.d(TAG, "onRestart: " + "刷新结束咯");
     }
 
     private void initViews() {
@@ -76,6 +81,8 @@ public class HomePageActivity extends AppCompatActivity {
         // 设置预加载页面数量
         binding.vpShowWeather.setOffscreenPageLimit(viewPagerAdapter.getItemCount()-1 == 0 ? 1:viewPagerAdapter.getItemCount()-1);
         // 绑定顶部圆点指示器
+        int itemCount = viewPagerAdapter.getItemCount();
+        Log.d(TAG, "initViews: " + itemCount);
         binding.circleCenter.setViewPager(binding.vpShowWeather);
 
         // 绑定下拉刷新
@@ -94,7 +101,7 @@ public class HomePageActivity extends AppCompatActivity {
                 // 刷新内层数据
                 int itemCount = binding.vpShowWeather.getCurrentItem();
                 homePageFragments.get(itemCount).refreshWeatherMethod(getApplicationContext());
-
+                Log.d(TAG, "onRefreshBegin: " + homePageFragments);
                 ptrHomePage.refreshComplete();
             }
         });
@@ -104,6 +111,8 @@ public class HomePageActivity extends AppCompatActivity {
         // fragment的数据初始化创建
         List<HomePageFragment> fragmentList = new ArrayList<>();
         fragmentList.add(new HomePageFragment("MyLocation"));
+
+        CountDownLatch latch = new CountDownLatch(1);
 
         new Thread(new Runnable() {
             @Override
@@ -117,8 +126,17 @@ public class HomePageActivity extends AppCompatActivity {
                     LocationInfo info = JsonUtils.parseLocationJson(locationInfo);
                     fragmentList.add(new HomePageFragment(info.getId()));
                 }
+
+                latch.countDown();
             }
         }).start();
+
+        try {
+            // 等待新线程完成
+            latch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         return fragmentList;
     }

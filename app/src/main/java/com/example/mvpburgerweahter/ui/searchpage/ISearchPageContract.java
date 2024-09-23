@@ -25,9 +25,9 @@ public interface ISearchPageContract {
     }
 
     interface ISearchPageView {
-        void getCitySuccess(List<LocationInfo> hotCityList,List<LocationInfo> cityList);
+        void getCitySuccess(List<LocationInfo> hotCityList,List<LocationInfo> cityList,List<NowWeatherInfo> savedWeatherList);
         void getElasticSearchSuccess(List<LocationInfo> searchCityList);
-        void updateCityManager(List<LocationInfo> savedCityList);
+        void updateCityManager(List<LocationInfo> savedCityList,List<NowWeatherInfo> savedWeatherList);
         void getCityFailed();
     }
 }

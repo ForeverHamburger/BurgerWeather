@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mvpburgerweahter.R;
 import com.example.mvpburgerweahter.databean.LocationInfo;
+import com.example.mvpburgerweahter.databean.NowWeatherInfo;
 import com.example.mvpburgerweahter.ui.detailpage.view.DetailPageActivity;
 
 import java.util.List;
@@ -25,9 +26,11 @@ public class CityManagerRecyclerAdapter extends RecyclerView.Adapter<CityManager
     private ViewHolder viewHolder;
     private List<LocationInfo> mCityList;
     private Context mContext;
-    public CityManagerRecyclerAdapter(Context context, List<LocationInfo> cityList) {
+    private List<NowWeatherInfo> mWeatherList;
+    public CityManagerRecyclerAdapter(Context context, List<LocationInfo> cityList,List<NowWeatherInfo> savedWeatherList) {
         this.mContext = context;
         this.mCityList = cityList;
+        this.mWeatherList = savedWeatherList;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -55,7 +58,8 @@ public class CityManagerRecyclerAdapter extends RecyclerView.Adapter<CityManager
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.tvMyCityName.setText(mCityList.get(position).getName());
-
+        holder.tvMyCityweather.setText(mWeatherList.get(position).getText());
+        holder.tvMyCityTempreture.setText(mWeatherList.get(position).getTemp() + "°");
         holder.ibtnMyCity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,8 +84,9 @@ public class CityManagerRecyclerAdapter extends RecyclerView.Adapter<CityManager
         return mCityList == null ? 0 : mCityList.size();
     }
 
-    public void updateData(List<LocationInfo> cityList) {
+    public void updateData(List<LocationInfo> cityList,List<NowWeatherInfo> weatherList) {
         this.mCityList = cityList;
+        this.mWeatherList = weatherList;
         notifyDataSetChanged();
     }
 }

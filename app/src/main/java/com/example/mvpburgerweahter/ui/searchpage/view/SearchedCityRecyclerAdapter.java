@@ -1,5 +1,6 @@
 package com.example.mvpburgerweahter.ui.searchpage.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -49,7 +50,7 @@ public class SearchedCityRecyclerAdapter extends RecyclerView.Adapter<SearchedCi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SearchedCityRecyclerAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SearchedCityRecyclerAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         LocationInfo locationInfo = locationInfos.get(position);
         holder.tvCityName.setText(locationInfo.getName() + " - " + locationInfo.getAdm1() +
                 " , " + locationInfo.getCountry());
@@ -57,6 +58,8 @@ public class SearchedCityRecyclerAdapter extends RecyclerView.Adapter<SearchedCi
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, DetailPageActivity.class);
+                intent.putExtra("cityId_key", locationInfos.get(position).getId());
+                intent.putExtra("cityName_key",locationInfos.get(position).getName());
                 mContext.startActivity(intent);
             }
         });

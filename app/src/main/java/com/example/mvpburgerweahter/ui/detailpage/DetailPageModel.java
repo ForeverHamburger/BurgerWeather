@@ -34,6 +34,7 @@ public class DetailPageModel implements IDetailPageContract.IDetailPageModel{
             infos = JsonUtils.parseDailyWeatherInfoJson(forecastJsonPerDay);
         } else {
             String dailyWeatherInfo = WeatherUtils.getDailyWeatherInfo(cityCode);
+            Log.d(TAG, "getDailyWeatherInfo: " + cityCode);
             infos = JsonUtils.parseDailyWeatherInfoJson(dailyWeatherInfo);
         }
         Log.d(TAG, "getHourlyWeatherInfo: "+ infos);

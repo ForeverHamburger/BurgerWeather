@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.mvpburgerweahter.databean.LocationInfo;
+import com.example.mvpburgerweahter.databean.NowWeatherInfo;
 
 import java.util.List;
 
@@ -24,7 +25,9 @@ public class SearchPagePresenter implements ISearchPageContract.ISearchPagePrese
             public void run() {
                 List<LocationInfo> hotCityList = mSearchPageModel.getHotCityList();
                 List<LocationInfo> savedCityList = mSearchPageModel.getSavedCityList();
-                mSearchPageView.getCitySuccess(hotCityList,savedCityList);
+                List<NowWeatherInfo> savedWeatherList = mSearchPageModel.getSavedWeatherList();
+
+                mSearchPageView.getCitySuccess(hotCityList,savedCityList,savedWeatherList);
             }
         }).start();
     }
@@ -51,7 +54,8 @@ public class SearchPagePresenter implements ISearchPageContract.ISearchPagePrese
             public void run() {
                 mSearchPageModel.saveCityToDatabase(info);
                 List<LocationInfo> savedCityList = mSearchPageModel.getSavedCityList();
-                mSearchPageView.updateCityManager(savedCityList);
+                List<NowWeatherInfo> savedWeatherList = mSearchPageModel.getSavedWeatherList();
+                mSearchPageView.updateCityManager(savedCityList,savedWeatherList);
             }
         }).start();
     }
@@ -63,7 +67,10 @@ public class SearchPagePresenter implements ISearchPageContract.ISearchPagePrese
             public void run() {
                 mSearchPageModel.deleteCityFromDatabase(cityCode);
                 List<LocationInfo> savedCityList = mSearchPageModel.getSavedCityList();
-                mSearchPageView.updateCityManager(savedCityList);
+                List<NowWeatherInfo> savedWeatherList = mSearchPageModel.getSavedWeatherList();
+                mSearchPageView.updateCityManager(savedCityList,savedWeatherList);
+
+
             }
         }).start();
     }
